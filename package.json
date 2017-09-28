@@ -1,0 +1,23 @@
+{
+  "name": "tserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build.js && node index.js"
+  },
+  "author": "DPaula",
+  "license": "MIT",
+  "dependencies": {
+    "@types/body-parser": "^1.16.5",
+    "@types/express": "^4.0.37",
+    "@types/mongoose": "^4.7.23",
+    "body-parser": "^1.18.2",
+    "browserify": "^14.4.0",
+    "buildify": "^0.4.0",
+    "eslint": "^4.7.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.12",
+    "typescript": "^2.5.2"
+  }
+}
