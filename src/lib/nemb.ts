@@ -22,12 +22,7 @@ class TServer{
     //components
     protected app: express.Application;
     protected db: mongoose.Connection;
-
-    //database properties
-    public DatabaseURL: string;
-
     //server options
-    //public Options: TSOptions;
     public Options: any;
 
     //constructor
@@ -35,7 +30,6 @@ class TServer{
         this.app = express();
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
-
         this.Options = {
             port: 0,
             mongoURL: ""
@@ -79,7 +73,7 @@ class TServer{
             console.log('HTTP Port was not been assigned to options');
         }else{
             ListenPort = opts.port || ListenPort;
-            const dbURI = this.DatabaseURL;
+            const dbURI = opts.mongoURL;
             if (dbURI){
                 mongoose.connection.on('connected',function(){ console.log('Connected to MongoDB, URL = ' + dbURI); });
                 mongoose.connection.on('error',function(err){ console.log('Not connected to MongoDB => Error: ' + err); });

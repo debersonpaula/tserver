@@ -14,5 +14,6 @@ browserify('./bin/client.js','./public/client.js',function(){
     //minify the client.js file
     process.stdout.write('\nStart compile on buildify...');
     buildify('./public/client.js','./public/client.js')
-    process.stdout.write('compiled!');
+    process.stdout.write('compiled!\n');
+    console.log('Compiliation finished \n=================================');
 });

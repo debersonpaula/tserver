@@ -28,17 +28,17 @@ var TServer = /** @class */ (function () {
             mongoURL: ""
         };
     }
+    //load config json file
     TServer.prototype.LoadConfig = function (filename) {
         //load json file to obj
         var obj = JSON.parse(fs.readFileSync(filename, 'utf8'));
+        //if opt exists in obj, assign to the options
         for (var opt in this.Options) {
             if (obj[opt]) {
-                //if opt exists in obj, assign to the options
                 this.Options[opt] = obj[opt];
             }
         }
         //check for static routes
-        //if(obj['static']){
         if (obj.static) {
             for (var route in obj.static) {
                 this.AddStatic(obj.static[route]);
@@ -63,7 +63,7 @@ var TServer = /** @class */ (function () {
         }
         else {
             ListenPort = opts.port || ListenPort;
-            var dbURI_1 = this.DatabaseURL;
+            var dbURI_1 = opts.mongoURL;
             if (dbURI_1) {
                 mongoose.connection.on('connected', function () { console.log('Connected to MongoDB, URL = ' + dbURI_1); });
                 mongoose.connection.on('error', function (err) { console.log('Not connected to MongoDB => Error: ' + err); });
