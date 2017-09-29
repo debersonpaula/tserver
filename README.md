@@ -13,9 +13,8 @@ More details on https://github.com/debersonpaula/example-tbb
 `node index.js`
 
 ## To compile and run:
-###It will run node build.js && node index.js:
-
-`npm start`
+ - It will run node build.js && node index.js:
+ `npm start`
 
 
 ## Directory/File Package Details
