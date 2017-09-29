@@ -7,7 +7,6 @@
 */
 
 import * as express from 'express';
-import * as mongoose from 'mongoose';
 import * as bodyParser from 'body-parser';
 import * as fs from 'fs';
 
@@ -30,6 +29,11 @@ class TServer{
         this.Options = {
             port: 0
         };
+    }
+
+    //add object to objects list
+    public Add(obj: TServerObject){
+        this.objects.push(obj);
     }
 
     //load config json file
@@ -69,16 +73,11 @@ class TServer{
             console.log('HTTP Port was not been assigned to options');
         }else{
             ListenPort = opts.port || ListenPort;
-            /*
-            const dbURI = opts.mongoURL;
-            if (dbURI){
-                mongoose.connection.on('connected',function(){ console.log('Connected to MongoDB, URL = ' + dbURI); });
-                mongoose.connection.on('error',function(err){ console.log('Not connected to MongoDB => Error: ' + err); });
-                mongoose.connection.on('disconnected',function(){ console.log('Disconnected to MongoDB, URL = '  + dbURI); });
-                mongoose.connection.on('open',function(){ console.log('Connection with MongoDB is open.'); });
-                mongoose.connect(dbURI,{useMongoClient: true});
-            }
-            */
+ 
+            //run objects DoBeforeListen
+            this.objects.forEach(element => {
+                element.DoBeforeListen();
+            });
 
             this.app.listen(ListenPort,function(err:any){ 
                 if (err){
@@ -98,7 +97,9 @@ class TServerObject{
     protected SOwner: TServer;
     constructor(AOwner:TServer){
         this.SOwner = AOwner;
+        AOwner.Add(this);
     }
+    DoBeforeListen(){}
 }
 
 export {TServer,TServerObject};

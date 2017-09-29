@@ -13,7 +13,8 @@ More details on https://github.com/debersonpaula/example-tbb
 `node index.js`
 
 ## To compile and run:
-If you prefer, you can run this only command (already run node build.js && node index.js):
+###It will run node build.js && node index.js:
+
 `npm start`
 
 
