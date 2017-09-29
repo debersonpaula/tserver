@@ -2,6 +2,7 @@
 * MServer unit
 * descr: creates connection to mongodb
 * scope: only server
+* dependencies: tserver
 * author: dpaula
 * https://github.com/debersonpaula
 */
@@ -12,10 +13,12 @@ import {TServer,TServerObject} from './tserver';
 class MServer extends TServerObject{
 
     protected db: mongoose.Connection;
+    protected models: Array<TModel>;
 
     constructor(AOwner:TServer){
         super(AOwner);
         AOwner.Options.mongoURL = "";
+        this.models = [];
     }
 
     DoBeforeListen(){
@@ -28,6 +31,29 @@ class MServer extends TServerObject{
             mongoose.connect(dbURI,{useMongoClient: true});
         }
     }
+
+    AddModel(Schema:mongoose.SchemaDefinition,ModelName:string){
+        var content = new TModel;
+        content.Name = ModelName;
+        content.Schema = new mongoose.Schema(Schema);
+        content.Model = mongoose.model(ModelName,content.Schema);
+        this.models.push(content);
+    }
+
+    SearchModel(ModelName: string): TModel | undefined
+    {
+        this.models.forEach(element => {
+            if (element.Name === ModelName)
+                return element;
+        });
+        return;
+    }
+}
+
+class TModel{
+    Name: string;
+    Schema: mongoose.Schema;
+    Model: mongoose.Model<any>;
 }
 
 export {MServer};

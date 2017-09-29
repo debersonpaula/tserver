@@ -35,6 +35,19 @@ class TServer{
         this.objects.push(obj);
     }
 
+    //find object in objects list
+    public Find(classtype: typeof TServerObject):any
+    {
+        var buf = undefined;
+        for(var i in this.objects){
+            if (this.objects[i].constructor == classtype){
+                buf = this.objects[i];
+                break;
+            }
+        }
+        return buf;
+    }
+
     //load config json file
     public LoadConfig(filename:string){
         //load json file to obj
