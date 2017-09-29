@@ -15,7 +15,6 @@ import * as fs from 'fs';
 class TServer{
     //components
     protected app: express.Application;
-    //protected db: mongoose.Connection;
     protected objects: Array<TServerObject>;
     //server options
     public Options: any;
@@ -64,6 +63,11 @@ class TServer{
         this.app.get(uri, function(req, res){
             res.sendFile(filename);
         });
+    }
+
+    //add router handler
+    public AddRouter(uri:string){
+        return this.app.route(uri);
     }
 
     //server initializator
