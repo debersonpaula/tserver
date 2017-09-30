@@ -1,0 +1,195 @@
+@function SetFontColor($bgcolor){
+	@if (lightness($bgcolor) < 60) {
+		@return white
+	} 
+	@else {
+		@return black
+    }
+}
+
+$fontFamily		: "Open Sans", Arial, sans-serif;
+$fontSize		: 16px;
+
+//schema layout
+//color   = background color
+//colorF  = font color
+//colorFA = font color active/focus/hover
+
+//top schema
+$headerColor	: cyan !default;
+$headerColorF	: darken(SetFontColor($headerColor),25%);
+$headerColorFA	: SetFontColor($headerColor);
+$headerHeight	: 3em;
+
+//logo schema
+$logoColor		: blue !default;
+$logoColorF		: SetFontColor($logoColor);
+$logoColorFA	: SetFontColor($logoColor);
+$logoAlign		: left;
+
+//side panel schema
+$sideColor	: gray !default;
+$sideColorF	: darken(SetFontColor($sideColor),25%);
+$sideColorFA: SetFontColor($sideColor);
+$sideWidth	: 16em;
+
+//footer schema
+$footerColor  : white !default;
+$footerColorF : SetFontColor($footerColor);
+$footerBorder : 1px solid #ccc;
+$footerHeight : 3em;
+
+//content schema
+$contentColor : #ddd !default;
+
+//general options
+$defaultPad		: 1em;
+
+//auxiliary extends
+%table{
+	display:table;
+	width: 100%;
+	height: 100%;
+}
+%tablerow{
+	display: table-row;
+}
+
+//template structure
+body{
+	font-family:$fontFamily;
+	font-size:$fontSize;
+}
+.dheader{
+	height  :$headerHeight;
+	background :$headerColor;
+	color      :$headerColorF;
+}
+.dlogo{
+	text-align :$logoAlign;
+	background :$logoColor;
+	color      :$logoColorF;
+	display:block;
+	text-align: center;
+	padding: $defaultPad;
+}
+.dmenutop{
+	float: right;
+	ul{
+		li{
+			display: inline-block;
+			a{
+				display : block;
+				padding : $defaultPad;						
+				cursor  : pointer;
+				color   : $headerColorF;
+				&:hover{
+					background:lighten($headerColor,10%);
+					color:$headerColorFA;
+				}
+				&.active{
+					background:lighten($headerColor,20%);
+					color:$headerColorFA;
+				}
+			}
+		}
+	}
+}
+.dmenuleft{
+	background: $sideColor;
+	color: $sideColorF;
+	header{
+		padding: $defaultPad;
+		background: darken($sideColor,40%);
+	}
+	ul{
+		margin: 0;padding: 0;
+		li{
+			margin: 0;padding: 0;
+			a{
+				display:block;
+				padding:$defaultPad;
+				border-left:3px solid transparent;
+				cursor:pointer;
+				&:hover{
+					background 			: lighten($sideColor,10%);
+					border-left-color 	: $logoColor;
+					color 				: $sideColorFA;
+				}
+				&.active{
+					background 			: lighten($sideColor,15%);
+					border-left-color 	: lighten($logoColor,15%);
+					color 				: $sideColorFA;
+				}
+			}
+		}
+	}
+}
+.dcontent{
+	padding:$defaultPad;
+	background: $contentColor;
+}
+.dfooter{
+	height: $footerHeight;
+	background  : $footerColor;
+	color: $footerColorF;
+	border-top: $footerBorder;
+	vertical-align: middle;
+	text-align: center;
+	footer{
+		padding: $defaultPad;
+		display: block;
+	}
+}
+.dmenutoggle{
+	display:none;
+	padding:$defaultPad;
+	width:$headerHeight;
+	cursor:pointer;
+	float: left;
+	
+	&:hover{
+		background:lighten($headerColor,10%);
+		color:$headerColorFA;
+	}
+	&:before{
+		-moz-osx-font-smoothing:grayscale;
+		-webkit-font-smoothing:antialiased;
+		font-family:FontAwesome;
+		content:"\f0c9";
+	}
+	@media (max-width: $screenWidthS1){
+		display:block;
+	}
+}
+.dmenuclose{
+	display:none;
+	float: right;
+	padding:$defaultPad;
+	@media (max-width: $screenWidthS1){
+		display:block;
+	}
+}
+
+//classes
+.dropdown{
+	position: relative;
+	.dropitem{
+		display: none;
+		background :$headerColor;
+		border: 1px solid red;
+		li{
+			display: block;
+		}
+		&.down{
+			position: absolute;
+			top: $headerHeight;
+		}
+		&.right{
+			right: 0;
+		}
+		&.left{
+			left: 0;
+		}
+	}
+}

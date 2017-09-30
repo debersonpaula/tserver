@@ -1,6 +1,7 @@
 const tsc = require('./compiler/tsc');
 const browserify = require('./compiler/browserify');
 const buildify = require('./compiler/buildify');
+const sass = require('./compiler/sass')
 
 //compile TypeScript and place compiled files in bin folder
 process.stdout.write('Start compile on tsc...');
@@ -14,6 +15,13 @@ browserify('./bin/client.js','./public/client.js',function(){
     //minify the client.js file
     process.stdout.write('\nStart compile on buildify...');
     buildify('./public/client.js','./public/client.js')
-    process.stdout.write('compiled!\n');
+    process.stdout.write('compiled!');
+    //compile client.scss file
+    process.stdout.write('\nStart compile sass...');
+    sass('./src/sass/client.scss','./public/client.css',function(){
+        process.stdout.write('compiled!\n');
+    });
+
+
     console.log('Compiliation finished \n=================================');
 });

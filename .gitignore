@@ -6,4 +6,5 @@
 # other files
 *.log
 /public/client.js
+/public/client.css
 /bin
