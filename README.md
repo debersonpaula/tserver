@@ -1,5 +1,6 @@
 # TServer
 
+TServer is a translated model of a component I wrote in Delphi to manage HTTP pages.
 This component uses compilation logic TBB (TypeScript + Browserify + Buildify).
 More details on https://github.com/debersonpaula/example-tbb
 
