@@ -31,3 +31,14 @@ More details on https://github.com/debersonpaula/example-tbb
 ## Working on
 
  I'm still working on this component, some features are still unavailable.
+ 
+## Frameworks used on
+
+ - body-parser
+ - browserify
+ - buildify
+ - express
+ - mongoose
+ - react
+ - react-dom
+ - typescript
