@@ -33,27 +33,52 @@ class MServer extends TServerObject{
     }
 
     AddModel(Schema:mongoose.SchemaDefinition,ModelName:string){
-        var content = new TModel;
+        var content = new TModel(this.SOwner);
         content.Name = ModelName;
         content.Schema = new mongoose.Schema(Schema);
         content.Model = mongoose.model(ModelName,content.Schema);
         this.models.push(content);
     }
 
-    SearchModel(ModelName: string): TModel | undefined
+    SearchModel(ModelName: string): TModel
     {
-        this.models.forEach(element => {
-            if (element.Name === ModelName)
-                return element;
-        });
-        return;
+        var result: any = undefined;
+        for (var i in this.models){
+            if (this.models[i].Name === ModelName){
+                result = this.models[i];
+                break;
+            }
+        }
+        return result;
     }
 }
 
-class TModel{
-    Name: string;
-    Schema: mongoose.Schema;
-    Model: mongoose.Model<any>;
+class TModel extends TServerObject{
+    //components
+    public Name: string;
+    public Schema: mongoose.Schema;
+    public Model: mongoose.Model<any>;
+    //method to find
+    public Find(conditions: Object, callback?: (result:any[])=>void ){
+        var self = this;
+        self.Model.find(conditions,function(err:any,res:any[]){ self.ResultOperation(err,res,callback); });
+    }
+    //method to save
+    public Save(data: Object, callback?: (result:any[])=>void ){
+        var self = this;
+        var savemodel: mongoose.Document = new self.Model(data);
+        savemodel.save(function(err:any,res:any){ self.ResultOperation(err,res,callback); });
+    }
+    //method to return result of mongoose operation
+    private ResultOperation(err:any,res:any,callback?: Function){
+        var result = false;
+        if (err){
+            this.SOwner.Log(err);
+        }else{
+            result = res;
+        }
+        callback && callback(result);
+    }
 }
 
-export {MServer};
+export {MServer,TModel};

@@ -7,8 +7,8 @@
 * https://github.com/debersonpaula
 */
 import { Request, Response } from "express";
-import {TServer,TServerObject} from './tserver';
-import {MServer} from './mserver';
+import { TServer,TServerObject } from './tserver';
+import { MServer,TModel } from './mserver';
 
 class AServer extends TServerObject{
 
@@ -18,18 +18,44 @@ class AServer extends TServerObject{
         super(AOwner);
     }
     DoBeforeListen(){
+        var self = this;
+        self.db = self.SOwner.Find(MServer);
+        self.RegisterStandardModels();
+
         this.SOwner.AddRouter('/register')
             .get(this.RouteGetRegister)
-            .post(this.RoutePostRegister);
-        this.db = this.SOwner.Find(MServer);
-        this.RegisterStandardModels();
+            .post(function(req:Request,res:Response){
+                var username = req.body.username,
+                userpass = req.body.userpass,
+                userpass2 = req.body.userpass2;
+                if (!username || !userpass || userpass != userpass2){
+                    res.send('User Name and Password fields cant be blank and Passwords should be the same.');
+                }else{
+                    var getdata: TModel = self.db.SearchModel('dbUsers');
+                    if (getdata){
+                        //locate if the user exists
+                        getdata.Find({username: username},function(result){
+                            if (result.length){
+                                res.status(200);
+                                res.send('this user already exists');
+                            }else{
+                                //create user
+                                getdata.Save({username: username, userpass: userpass},function(result){
+                                    if (result){
+                                        res.status(200);
+                                        res.send('user registered');
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
     }
     private RouteGetRegister(req:Request,res:Response){
         res.send(DefAStandard.StandardViews.RouteGetRegister);
     }
-    private RoutePostRegister(req:Request,res:Response){
-        res.send('RoutePostRegister');
-    }
+    //private RoutePostRegister
     private RegisterStandardModels(){
         if (this.db){
             DefAStandard.StandardModels.forEach(model => {

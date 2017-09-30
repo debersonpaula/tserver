@@ -30,6 +30,10 @@ class TServer{
         };
     }
 
+    public Log = function(msg:string){
+        console.log(msg);
+    }
+
     //add object to objects list
     public Add(obj: TServerObject){
         this.objects.push(obj);
@@ -86,8 +90,9 @@ class TServer{
     //server initializator
     public Listen(ListenPort?:number){
         var opts = this.Options;
+        var self = this;
         if (!opts.port){
-            console.log('HTTP Port was not been assigned to options');
+            self.Log('HTTP Port was not been assigned to options');
         }else{
             ListenPort = opts.port || ListenPort;
  
@@ -98,10 +103,10 @@ class TServer{
 
             this.app.listen(ListenPort,function(err:any){ 
                 if (err){
-                    console.log(`HTTP Server can't be active on port ${opts.port}`) 
+                    self.Log(`HTTP Server can't be active on port ${opts.port}`) 
                     throw err;
                 }else{
-                    console.log(`HTTP Server active on port ${opts.port}`) 
+                    self.Log(`HTTP Server active on port ${opts.port}`) 
                 }
             });
 
