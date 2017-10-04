@@ -51,9 +51,9 @@ class DBody extends React.Component<any, any>{
                 <div className="dmenuleft">
                     <header>Menu Sample</header>
                     <ul>
-                        <li><a href="#" onClick={OnLinkClick} data-link="Menu Item 1">Menu Item 1</a></li>
-                        <li><a href="#" onClick={OnLinkClick} data-link="Menu Item 2">Menu Item 2</a></li>
-                        <li><a href="#" onClick={OnLinkClick} data-link="Menu Item 3">Menu Item 3</a></li>
+                        <li><a onClick={OnLinkClick} data-link="Menu Item 1">Menu Item 1</a></li>
+                        <li><a onClick={OnLinkClick} data-link="Menu Item 2">Menu Item 2</a></li>
+                        <li><a onClick={OnLinkClick} data-link="Menu Item 3">Menu Item 3</a></li>
                     </ul>
                     {menuleft}
                 </div>

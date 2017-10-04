@@ -83,7 +83,7 @@ class TServer{
     }
 
     //add router handler
-    public AddRouter(uri:string){
+    public AddRouter(uri:string): express.IRoute{
         return this.app.route(uri);
     }
 
